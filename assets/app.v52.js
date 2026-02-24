@@ -919,13 +919,28 @@ function initLifeMap(){
   const horizons = ["week","month","quarter"];
   const domains  = st.lifeMap.domains;
 
+  function threadStatusBadge(status){
+    const s = (status||"active").toLowerCase();
+    if(s==="archived"||s==="done"||s==="completed") return { label:"✓ Done",       cls:"tls-done"   };
+    if(s==="paused")                                 return { label:"⏸ Paused",     cls:"tls-paused" };
+    if(s.includes("not started"))                    return { label:"○ Not started",cls:"tls-idle"   };
+    return                                                  { label:"● Active",     cls:"tls-active" };
+  }
+
   function threadLinksHtml(g){
     const ids = Array.isArray(g.linkedThreadIds) ? g.linkedThreadIds : [];
     if(!ids.length) return '';
     const threads = ids.map(id => st.threads.find(t => String(t.id)===String(id))).filter(Boolean);
     if(!threads.length) return '';
-    const pills = threads.map(t=>`<button class="pill" type="button" data-open-thread="${escapeAttr(String(t.id))}" title="Open in Thread Registry">🧵 ${escapeHtml(t.title)}</button>`).join(" ");
-    return `<div class="meta" style="margin-top:6px; display:flex; gap:6px; flex-wrap:wrap">${pills}</div>`;
+    const pills = threads.map(t=>{
+      const badge = threadStatusBadge(t.status);
+      return `<button class="thread-link-pill" type="button" data-open-thread="${escapeAttr(String(t.id))}" title="Open in Thread Registry">`
+        + `<span class="tlp-icon">🧵</span>`
+        + `<span class="tlp-title">${escapeHtml(t.title)}</span>`
+        + `<span class="tlp-status ${badge.cls}">${badge.label}</span>`
+        + `</button>`;
+    }).join("");
+    return `<div class="thread-links-row">${pills}</div>`;
   }
 
   function attachThreadPickerHtml(g){
@@ -949,8 +964,11 @@ function initLifeMap(){
   function goalRow(hKey, domain, g){
     const dClass  = domainClass(domain);
     const urgency = g.urgency || st.lifeMap.defaultUrgency || "medium";
-    const leftBtn  = (hKey!=="week")    ? `<button class="btn" data-demote="${g.id}"  data-h="${hKey}" data-d="${escapeAttr(domain)}">⬅</button>` : `<span></span>`;
-    const rightBtn = (hKey!=="quarter") ? `<button class="btn" data-promote="${g.id}" data-h="${hKey}" data-d="${escapeAttr(domain)}">➡</button>` : `<span></span>`;
+    // ⬅ = more urgent = promote toward "week". ➡ = less urgent = demote toward "quarter".
+    const leftLabel  = hKey==="month"   ? "← Week"    : "← Month";
+    const rightLabel = hKey==="week"    ? "Month →"   : "Quarter →";
+    const leftBtn  = (hKey!=="week")    ? `<button class="btn arrow-btn" data-promote="${g.id}" data-h="${hKey}" data-d="${escapeAttr(domain)}" title="Move to more urgent horizon">${leftLabel}</button>`  : `<span></span>`;
+    const rightBtn = (hKey!=="quarter") ? `<button class="btn arrow-btn" data-demote="${g.id}"  data-h="${hKey}" data-d="${escapeAttr(domain)}" title="Move to less urgent horizon">${rightLabel}</button>` : `<span></span>`;
     return `
       <div class="goal ${dClass}" data-goal-card="${g.id}">
         <div class="domain-strip"></div>
