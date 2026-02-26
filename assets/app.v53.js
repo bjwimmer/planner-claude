@@ -53,8 +53,8 @@ function esc(s){ return escHtml(s); }
 const NAV_ITEMS = [
   { href: "index.html", label: "Map" },
   { href: "quick-capture.html", label: "⚡ Quick Capture" },
-  { href: "thread-registry.html", label: "Thread Registry" },
   { href: "strategic-life-map.html", label: "Strategic Life Map" },
+  { href: "thread-registry.html", label: "Thread Registry" },
   { href: "90-day-income-map.html", label: "90‑Day Income Map" },
   { href: "how-this-works.html", label: "How This Works" },
 ];
