@@ -880,6 +880,11 @@ function initThreadRegistry(){
         document.getElementById("tDomain").value = th.domain || "";
         document.getElementById("tNext").value = th.nextAction || "";
         
+        // Update button state and text
+        updateAddBtn();
+        const submitBtn = form.querySelector('button[type="submit"]');
+        if(submitBtn) submitBtn.textContent = "Update thread";
+        
         // Scroll to form
         document.getElementById("tTitle").scrollIntoView({behavior: "smooth", block: "center"});
         document.getElementById("tTitle").focus();
@@ -921,6 +926,11 @@ function initThreadRegistry(){
     }
     
     form.reset();
+    
+    // Reset button text
+    const submitBtn = form.querySelector('button[type="submit"]');
+    if(submitBtn) submitBtn.textContent = "Add thread";
+    
     updateAddBtn();
     saveState(st); renderFooter(st); render();
   });
