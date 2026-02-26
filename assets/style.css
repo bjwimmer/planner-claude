@@ -304,7 +304,7 @@ html[data-color="plus"] .card::before{
   margin-bottom:10px;
 }
 
-/* Style domain names as colorful buttons */
+/* Style domain section headers as colorful buttons - NOT goal titles */
 .domain-head strong {
   font-size: 18px;
   font-weight: 700;
@@ -317,27 +317,27 @@ html[data-color="plus"] .card::before{
   letter-spacing: 1px;
 }
 
-.domain-health strong { 
+.domain-head.domain-health strong { 
   background: rgb(5,150,105);
   color: white;
 }
-.domain-home strong { 
+.domain-head.domain-home strong { 
   background: rgb(217,119,6);
   color: white;
 }
-.domain-work-income strong { 
+.domain-head.domain-work-income strong { 
   background: rgb(37,99,235);
   color: white;
 }
-.domain-relationships strong { 
+.domain-head.domain-relationships strong { 
   background: rgb(236,72,153);
   color: white;
 }
-.domain-creative-meaning strong { 
+.domain-head.domain-creative-meaning strong { 
   background: rgb(124,58,237);
   color: white;
 }
-.domain-other strong { 
+.domain-head.domain-other strong { 
   background: rgb(100,116,139);
   color: white;
 }
