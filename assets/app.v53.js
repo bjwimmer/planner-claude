@@ -804,6 +804,7 @@ function initThreadRegistry(){
           <textarea data-notes="${t.id}" placeholder="Context, constraints, next thoughts…">${escapeHtml(t.notes || "")}</textarea>
           <div class="row" style="margin-top:10px">
             <button class="btn primary" data-save="${t.id}">Save</button>
+            <button class="btn"         data-edit="${t.id}">Edit</button>
             <button class="btn"         data-focus="${t.id}">Focus this week</button>
             <button class="btn warn"    data-copy="${t.id}">Copy micro-action</button>
             <button class="btn bad"     data-delete="${t.id}">Delete</button>
@@ -867,6 +868,26 @@ function initThreadRegistry(){
         saveState(st); render();
       });
     });
+
+    threadsEl.querySelectorAll("[data-edit]").forEach(btn=>{
+      btn.addEventListener("click", ()=>{
+        const id = btn.getAttribute("data-edit");
+        const th = st.threads.find(x=>String(x.id)===String(id));
+        if(!th) return;
+        
+        // Pre-fill form with thread data
+        document.getElementById("tTitle").value = th.title || "";
+        document.getElementById("tDomain").value = th.domain || "";
+        document.getElementById("tNext").value = th.nextAction || "";
+        
+        // Scroll to form
+        document.getElementById("tTitle").scrollIntoView({behavior: "smooth", block: "center"});
+        document.getElementById("tTitle").focus();
+        
+        // Store ID so we know we're editing
+        form.dataset.editingId = id;
+      });
+    });
   }
 
   function render(){
@@ -877,11 +898,28 @@ function initThreadRegistry(){
 
   form.addEventListener("submit",(e)=>{
     e.preventDefault();
-    const title      = document.querySelector("#tTitle").value.trim();
-    const domain     = document.querySelector("#tDomain").value.trim();
-    const nextAction = document.querySelector("#tNext").value.trim();
+    const title      = document.getElementById("tTitle").value.trim();
+    const domain     = document.getElementById("tDomain").value.trim();
+    const nextAction = document.getElementById("tNext").value.trim();
     if(!title) return;
-    st.threads.push({ id: uid(), title, status:"active", domain, nextAction, notes:"", createdAt: nowIso(), updatedAt: nowIso() });
+    
+    // Check if we're editing an existing thread
+    const editingId = form.dataset.editingId;
+    if(editingId){
+      // Update existing thread
+      const th = st.threads.find(x=>String(x.id)===String(editingId));
+      if(th){
+        th.title = title;
+        th.domain = domain;
+        th.nextAction = nextAction;
+        th.updatedAt = nowIso();
+      }
+      delete form.dataset.editingId;
+    } else {
+      // Create new thread
+      st.threads.push({ id: uid(), title, status:"active", domain, nextAction, notes:"", createdAt: nowIso(), updatedAt: nowIso() });
+    }
+    
     form.reset();
     updateAddBtn();
     saveState(st); renderFooter(st); render();
