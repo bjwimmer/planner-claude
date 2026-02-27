@@ -769,7 +769,7 @@ function initThreadRegistry(){
     threadsEl.innerHTML = activeThreads.length ? activeThreads.map(t=>{
       const inSlot = (String(st.weekly.slot1)===String(t.id) || String(st.weekly.slot2)===String(t.id));
       const domainPillColor = t.domain ? ` domain-pill" data-domain="${escapeAttr((t.domain||"").toLowerCase())}` : ``;
-      const pill = inSlot ? `<span class="pill good">Active this week</span>` : `<span class="pill">Unscheduled</span>`;
+      const pill = inSlot ? `<span class="pill good">Active this week</span>` : `<span class="pill warn">⏳ Unscheduled</span>`;
       const links = threadBacklinks(t.id);
       const backlinksHtml = links.length ? `<div class="meta" style="margin-top:6px; flex-wrap:wrap; gap:6px; display:flex">
         <span class="small" style="color:var(--muted); align-self:center">📍 Goals:</span>
