@@ -553,11 +553,16 @@ html[data-color="plus"] .card::before{
 #debugPanel .dbg-k{opacity:.75}
 #debugPanel .dbg-btn{background:transparent;border:0;color:#fff;cursor:pointer;font-size:14px;line-height:1}
 
-/* 2-COLUMN THREAD LAYOUT */
+/* 3-COLUMN THREAD LAYOUT */
 #threadsList.list {
   display: grid;
-  grid-template-columns: repeat(2, 1fr);
+  grid-template-columns: repeat(3, 1fr);
   gap: 1.5rem;
+}
+@media (max-width: 1100px) {
+  #threadsList.list {
+    grid-template-columns: repeat(2, 1fr);
+  }
 }
 @media (max-width: 968px) {
   #threadsList.list {
