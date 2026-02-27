@@ -565,7 +565,7 @@ function domainClass(domainRaw){
   if(d.includes("health")) return "domain-health";
   if(d.includes("home") || d.includes("house")) return "domain-home";
   if(d.includes("work") || d.includes("income") || d.includes("money") || d.includes("job") || d.includes("career")) return "domain-work-income";
-  if(d.includes("relationship") || d.includes("family") || d.includes("social")) return "domain-relationships";
+  if(d.includes("relationship") || d.includes("personal") || d.includes("family") || d.includes("social")) return "domain-relationships";
   if(d.includes("creative") || d.includes("meaning") || d.includes("writing") || d.includes("art")) return "domain-creative-meaning";
   return "domain-other";
 }
