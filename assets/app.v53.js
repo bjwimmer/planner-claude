@@ -795,7 +795,7 @@ function initThreadRegistry(){
             <span class="mono">Updated: ${new Date(t.updatedAt).toLocaleString()}</span>
           </div>
           ${backlinksHtml}
-          <div class="grid" style="margin-top:10px">
+          <div class="grid" style="margin-top:10px; align-items:flex-end">
             <div>
               <label>Next micro-action (5–20 min)</label>
               <textarea data-next="${t.id}" placeholder="Example: Open file and write 5 bullets" rows="2" style="min-height:60px;resize:vertical">${escapeHtml(t.nextAction || "")}</textarea>
@@ -1120,7 +1120,7 @@ function initLifeMap(){
               <span class="pill domain-pill" data-domain="${escapeAttr(domain.toLowerCase())}">${escapeHtml(domain)}</span>
             </div>
             ${threadLinksHtml(g)}
-            ${(()=>{ const linked = (g.linkedThreadIds||[]).map(id=>st.threads.find(t=>t.id===id)).filter(Boolean); const actions = linked.map(t=>t.nextAction).filter(Boolean); return actions.length ? `<div class="small" style="margin-top:6px; color:#1e40af; font-style:italic">⚡ ${escapeHtml(actions[0])}</div>` : ""; })()}
+            ${(()=>{ const linked = (g.linkedThreadIds||[]).map(id=>st.threads.find(t=>t.id===id)).filter(Boolean); const actions = linked.map(t=>t.nextAction).filter(Boolean); return actions.length ? `<div style="margin-top:8px; padding:8px 10px; background:rgba(37,99,235,.08); border-left:3px solid rgba(37,99,235,.50); border-radius:0 8px 8px 0"><div style="font-size:11px; font-weight:700; color:#1e40af; letter-spacing:.5px; margin-bottom:3px">NEXT ACTION</div><div style="font-size:13px; font-weight:600; color:#1e3a8a">${escapeHtml(actions[0])}</div></div>` : ""; })()}
           </div>
           <div class="row" style="justify-content:flex-end; gap:8px">
             ${leftBtn}
