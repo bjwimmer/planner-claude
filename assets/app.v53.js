@@ -1,7 +1,7 @@
 const BUILD_VERSION = "v53";
 const DEFAULT_ORIENTATION_TEXT = "Planner Orientation Layer — Implementation Blueprint v1.0\n\nThis document defines the calm, structured, orientation-first homepage layer for the existing planner system. It is an additive front-layer, not a rebuild. All existing planner pages and logic remain intact.\n\nCore Design Intent\n\nTone: Relaxed, creative, open.\nEmotional Effect: Structured stillness.\nFunction: Orientation before execution.\nRule: One continuous vertical layout. No collapsible sections above the fold.\n\nHomepage Structure (Top to Bottom)\n\n1. NORTH STAR (Locked Section)\n\nAnchoring Sentence (locked, editable only during scheduled review):\n\n\"I finish my life in peace — no debt left behind, no burden passed forward, living comfortably enough to create and care for myself.\"\n\nPractical Bullet Conditions (locked):\n\n• No consumer debt.\n\n• Housing path resolved and documented.\n\n• Home simplified and document-ready.\n\n• Income baseline stable with protected creative time.\n\n2. 90-DAY GATE (Current Season)\n\nHeader format: By [Insert Date]\n\n• Housing decision path chosen.\n\n• Debt strategy documented and active.\n\n• Minimum viable home clear established.\n\n3. THIS WEEK (Maximum 3 Commitments)\n\nOnly 1–3 commitments allowed. Each must have a clear 'done' definition.\n\nExample placeholders:\n\n• [Commitment 1]\n\n• [Commitment 2]\n\n• [Commitment 3]\n\n4. TODAY (One Lever Only)\n\nSingle action that advances one weekly commitment. No additional task lists visible on homepage.\n\nNavigation Rules\n\nAll deeper planner pages remain intact.\nA simple 'Home' link is added to each deeper page.\nHomepage remains the browser default start page.\nNo metrics, widgets, progress bars, or dashboards added.\n\nVisual Tone Guidelines\n\nBackground: Warm cream or soft neutral.\nText: Dark slate or charcoal (not pure black).\nAccent hierarchy:\n• Deep muted teal for North Star.\n• Warm clay/amber for 90-Day Gate.\n• Soft sage or gray-blue for Weekly.\n• Subtle highlight for Today.\nTypography: Soft serif for headings; clean sans-serif for body.\n\nGuardrails\n\n• Homepage must fit on one screen without scrolling.\n• North Star text remains locked except during scheduled review.\n• No new sections added without revisiting structure intentionally.\n• This page serves orientation, not tracking.";
 
-const DEFAULT_DOMAINS = ["Income","Financial","Home","Health","Personal"];
+const DEFAULT_DOMAINS = ["Work","Income","Financial","Home","Health"];
 
 /* === planner-test safeguards === */
 const APP_FLAVOR = "planner-test";
@@ -174,7 +174,7 @@ function ensureLifeMapSchema(st){
       if(!notes) return;
       const mapTo = name.includes("health") ? "Health"
         : (name.includes("home") ? "Home"
-        : (name.includes("relat") ? "Personal"
+        : (name.includes("work") ? "Work"
         : (name.includes("income")||name.includes("work") ? "Income"
         : (name.includes("fin") ? "Financial" : null))));
       if(mapTo){
@@ -564,8 +564,8 @@ function domainClass(domainRaw){
   if(!d) return "domain-other";
   if(d.includes("health")) return "domain-health";
   if(d.includes("home") || d.includes("house")) return "domain-home";
-  if(d.includes("work") || d.includes("income") || d.includes("money") || d.includes("job") || d.includes("career")) return "domain-work-income";
-  if(d.includes("relationship") || d.includes("personal") || d.includes("family") || d.includes("social")) return "domain-relationships";
+  if(d.includes("work") || d.includes("job") || d.includes("career") || d.includes("employ")) return "domain-work";
+  if(d.includes("income") || d.includes("money") || d.includes("revenue") || d.includes("earn")) return "domain-income";
   if(d.includes("creative") || d.includes("meaning") || d.includes("writing") || d.includes("art")) return "domain-creative-meaning";
   return "domain-other";
 }
