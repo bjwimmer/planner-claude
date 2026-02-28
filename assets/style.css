@@ -380,6 +380,11 @@ html[data-color="plus"] .card::before{
   box-shadow: 0 10px 22px rgba(15,23,42,.08);
   margin-bottom:10px;
 }
+/* Goal strip — wider and lighter than domain strip */
+.goal .domain-strip{
+  width: 15px;
+  opacity: .55;
+}
 .goal-head{
   display:flex;
   justify-content:space-between;
