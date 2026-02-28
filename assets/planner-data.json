@@ -1,0 +1,295 @@
+{
+  "meta": {
+    "createdAt": "2026-02-26T00:29:32.732Z",
+    "updatedAt": "2026-02-28T13:41:43.579Z",
+    "title": "Planner"
+  },
+  "inbox": [
+    {
+      "id": "f896082a4d944-19c9a466d5d",
+      "text": "Test IInbox",
+      "createdAt": "2026-02-26T14:07:12.733Z",
+      "status": "open"
+    }
+  ],
+  "threads": [
+    {
+      "id": "6d6a5846deaa48-19c9bd355ee",
+      "title": "Rob bank",
+      "status": "active",
+      "domain": "Income",
+      "nextAction": "First step: [describe 5–20 minute action]",
+      "notes": "Linked from Life Map (This Week).",
+      "createdAt": "2026-02-26T21:20:44.526Z",
+      "updatedAt": "2026-02-26T21:20:44.526Z"
+    },
+    {
+      "id": "d2af509f5609d-19c9bd206ae",
+      "title": "Sell house?",
+      "status": "active",
+      "domain": "Home",
+      "nextAction": "See clean out progress",
+      "notes": "Linked from Life Map (This Month).\n\nSee clean out progress\nResearch selling options (Full realtor vs Partial self-sell)",
+      "createdAt": "2026-02-26T21:19:18.702Z",
+      "updatedAt": "2026-02-26T21:19:18.702Z"
+    },
+    {
+      "id": "3bc2d82c1b2c68-19c9a46e6eb",
+      "title": "Eat donuts",
+      "status": "active",
+      "domain": "",
+      "nextAction": "",
+      "notes": "Sell apples",
+      "createdAt": "2026-02-26T14:07:43.851Z",
+      "updatedAt": "2026-02-26T14:08:21.560Z"
+    },
+    {
+      "id": "c477e8fa4864a-19c9a48100e",
+      "title": "Sell apples",
+      "status": "active",
+      "domain": "Income",
+      "nextAction": "",
+      "notes": "",
+      "createdAt": "2026-02-26T14:08:59.918Z",
+      "updatedAt": "2026-02-26T14:08:59.918Z"
+    },
+    {
+      "id": "22fd11d4d5ab5-19c9a485a9d",
+      "title": "Budget",
+      "status": "active",
+      "domain": "Financial",
+      "nextAction": "",
+      "notes": "",
+      "createdAt": "2026-02-26T14:09:19.005Z",
+      "updatedAt": "2026-02-26T14:09:19.005Z"
+    },
+    {
+      "id": "164020b0960eb-19c9a48b4cf",
+      "title": "Build deck",
+      "status": "active",
+      "domain": "Home",
+      "nextAction": "",
+      "notes": "",
+      "createdAt": "2026-02-26T14:09:42.095Z",
+      "updatedAt": "2026-02-26T14:09:42.095Z"
+    },
+    {
+      "id": "59c7c1c9f682b8-19c9a4913f6",
+      "title": "Meet Aubrey Plaza",
+      "status": "active",
+      "domain": "Home",
+      "nextAction": "Call her",
+      "notes": "She's funny",
+      "createdAt": "2026-02-26T14:10:06.454Z",
+      "updatedAt": "2026-02-28T01:15:43.317Z"
+    },
+    {
+      "id": "7b7d6e10ad66c8-19c9bcc7adc",
+      "title": "Testo Thread",
+      "status": "active",
+      "domain": "Health",
+      "nextAction": "",
+      "notes": "",
+      "createdAt": "2026-02-26T21:13:15.228Z",
+      "updatedAt": "2026-02-26T21:14:34.566Z"
+    },
+    {
+      "id": "e001570eba1078-19c9bd32cfa",
+      "title": "Just kidding",
+      "status": "active",
+      "domain": "Income",
+      "nextAction": "",
+      "notes": "",
+      "createdAt": "2026-02-26T21:20:34.042Z",
+      "updatedAt": "2026-02-26T21:20:34.042Z"
+    },
+    {
+      "id": "b7eaebc37110d8-19ca1d06f1c",
+      "title": "Work Test",
+      "status": "active",
+      "domain": "Work",
+      "nextAction": "",
+      "notes": "",
+      "createdAt": "2026-02-28T01:15:17.660Z",
+      "updatedAt": "2026-02-28T01:15:17.660Z"
+    }
+  ],
+  "weekly": {
+    "slot1": null,
+    "slot2": null,
+    "weekOf": "2026-02-23"
+  },
+  "lifeMap": {
+    "version": 2,
+    "domains": [
+      "Work",
+      "Income",
+      "Financial",
+      "Home",
+      "Health",
+      "Personal"
+    ],
+    "defaultUrgency": "medium",
+    "horizons": {
+      "week": {
+        "label": "This Week",
+        "domains": {
+          "Work": [],
+          "Income": [
+            {
+              "id": "3f7463738b3f58-19c9bd2804a",
+              "title": "Rob bank",
+              "notes": "",
+              "urgency": "medium",
+              "createdAt": "2026-02-26T21:19:49.834Z",
+              "updatedAt": "2026-02-26T21:21:50.251Z",
+              "linkedThreadIds": [
+                "c477e8fa4864a-19c9a48100e",
+                "6d6a5846deaa48-19c9bd355ee"
+              ]
+            },
+            {
+              "id": "fb30f5c1c3898-19c9759d4bc",
+              "title": "Etsy",
+              "notes": "T-shirts for fundraising\nCards\nMugs\nNew items\nFundraising (Michael J. Fox / Parkinson's Foundation)",
+              "urgency": "medium",
+              "createdAt": "2026-02-26T00:29:32.732Z",
+              "updatedAt": "2026-02-26T15:44:05.864Z",
+              "linkedThreadIds": []
+            }
+          ],
+          "Financial": [],
+          "Home": [
+            {
+              "id": "94d6143e5ed2d8-19c9759d4bc",
+              "title": "Sell items",
+              "notes": "Tools\nSnowblower (get running)\nHyundai (brakes)",
+              "urgency": "medium",
+              "createdAt": "2026-02-26T00:29:32.732Z",
+              "updatedAt": "2026-02-26T15:44:19.019Z",
+              "linkedThreadIds": []
+            }
+          ],
+          "Health": [
+            {
+              "id": "454bb6e7ec74f-19c9759d4bc",
+              "title": "Parkinson's",
+              "notes": "Exercise (Walking, E-biking)\nHandicap placard",
+              "urgency": "medium",
+              "createdAt": "2026-02-26T00:29:32.732Z",
+              "updatedAt": "2026-02-26T20:06:03.973Z",
+              "linkedThreadIds": []
+            }
+          ],
+          "Personal": []
+        }
+      },
+      "month": {
+        "label": "This Month",
+        "domains": {
+          "Work": [
+            {
+              "id": "work-month-001",
+              "title": "Research parks/DNR jobs",
+              "notes": "Ramsey County Parks\nMinnesota DNR seasonal\nSaint Paul Parks and Recreation\nChainsaw certification (OSHA/state forestry)",
+              "urgency": "medium",
+              "createdAt": "2026-02-27T00:00:00.000Z",
+              "updatedAt": "2026-02-27T00:00:00.000Z",
+              "linkedThreadIds": []
+            }
+          ],
+          "Income": [],
+          "Financial": [],
+          "Home": [
+            {
+              "id": "59d1dc5c528d68-19c9759d4bc",
+              "title": "Sell house?",
+              "notes": "See clean out progress\nResearch selling options (Full realtor vs Partial self-sell)",
+              "urgency": "medium",
+              "createdAt": "2026-02-26T00:29:32.732Z",
+              "updatedAt": "2026-02-26T21:19:18.702Z",
+              "linkedThreadIds": [
+                "d2af509f5609d-19c9bd206ae"
+              ]
+            }
+          ],
+          "Health": [
+            {
+              "id": "330b41249f668-19c9759d4bc",
+              "title": "ADHD",
+              "notes": "Med change?\nContinue coaching",
+              "urgency": "medium",
+              "createdAt": "2026-02-26T00:29:32.732Z",
+              "updatedAt": "2026-02-26T20:05:57.964Z",
+              "linkedThreadIds": []
+            }
+          ],
+          "Personal": []
+        }
+      },
+      "quarter": {
+        "label": "3 Months",
+        "domains": {
+          "Work": [
+            {
+              "id": "work-quarter-001",
+              "title": "Equipment operator role",
+              "notes": "Target: seated equipment operation (skid steers, trail graders, brush mowers)\nEmployment preferred over self-employment (no trailer loading risk)\nADA accommodation: request equipment-only assignment\nChainsaw cert as credential",
+              "urgency": "medium",
+              "createdAt": "2026-02-27T00:00:00.000Z",
+              "updatedAt": "2026-02-27T00:00:00.000Z",
+              "linkedThreadIds": []
+            }
+          ],
+          "Income": [
+            {
+              "id": "30855ffd1189-19c9759d4bc",
+              "title": "Etsy / self-employment",
+              "notes": "Construction knowledge / instruction / lead-manager\nCraft options",
+              "urgency": "medium",
+              "createdAt": "2026-02-26T00:29:32.732Z",
+              "updatedAt": "2026-02-26T00:29:32.732Z",
+              "linkedThreadIds": []
+            }
+          ],
+          "Financial": [
+            {
+              "id": "e0648595df7258-19c9759d4bc",
+              "title": "Investigate health plan",
+              "notes": "",
+              "urgency": "medium",
+              "createdAt": "2026-02-26T00:29:32.732Z",
+              "updatedAt": "2026-02-26T22:08:33.346Z",
+              "linkedThreadIds": []
+            },
+            {
+              "id": "d68a074d355b5-19c9759d4bc",
+              "title": "Budget & Bill Review",
+              "notes": "Cancel subscriptions\nReview all bills",
+              "urgency": "medium",
+              "createdAt": "2026-02-26T00:29:32.732Z",
+              "updatedAt": "2026-02-26T00:29:32.732Z",
+              "linkedThreadIds": []
+            }
+          ],
+          "Home": [
+            {
+              "id": "b8d6adf6c2f3f8-19c9759d4bc",
+              "title": "Give away items",
+              "notes": "Clothing\nMiscellaneous kitchen items\nMiscellaneous household items",
+              "urgency": "medium",
+              "createdAt": "2026-02-26T00:29:32.732Z",
+              "updatedAt": "2026-02-26T00:29:32.732Z",
+              "linkedThreadIds": []
+            }
+          ],
+          "Health": [],
+          "Personal": []
+        }
+      }
+    }
+  },
+  "incomeMap": {
+    "startDate": null
+  }
+}
