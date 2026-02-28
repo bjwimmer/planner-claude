@@ -1413,7 +1413,7 @@ function initIncomeMap(){
 // =============================================================
 function initMorningMap(){
   dbgMarkInit('morningMap');
-  const container = document.querySelector('.container');
+  const container = document.getElementById('mainContent') || document.querySelectorAll('.container')[1];
   if(!container) return;
   initCommon();
   const st = loadState();
