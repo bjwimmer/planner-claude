@@ -53,9 +53,8 @@ function esc(s){ return escHtml(s); }
 const NAV_ITEMS = [
   { href: "index.html", label: "Map" },
   { href: "quick-capture.html", label: "⚡ Quick Capture" },
-  { href: "thread-registry.html", label: "Thread Registry" },
   { href: "strategic-life-map.html", label: "Strategic Life Map" },
-  { href: "90-day-income-map.html", label: "90‑Day Income Map" },
+  { href: "thread-registry.html", label: "Thread Registry" },
   { href: "how-this-works.html", label: "How This Works" },
 ];
 
@@ -1437,39 +1436,25 @@ function initMorningMap(){
   container.innerHTML = `
 
 
-    <div class="grid2">
-      <div class="card">
-        <div class="cardHeader">
-          <div class="h2">Orientation layer</div>
-        </div>
-        <div class="northStarCard">
-          <div class="h2" style="margin-bottom:6px">North Star</div>
-          <div id="nsPreview" class="nsPreview"></div>
-          <textarea id="nsText" class="nsText" spellcheck="false">${esc(st.meta.northStarText)}</textarea>
-          <div class="row" style="margin-top:10px">
-            <button class="btn primary" id="nsSave">Save</button>
-            <div class="small muted">Keep this short. Read it in 5 seconds.</div>
-          </div>
-        </div>
-        <div class="spacer"></div>
-        <div class="card">
-          <div class="row" style="justify-content:space-between; align-items:center">
-            <div class="h2">System Notes</div>
-          </div>
-          <textarea id="notesText" class="notesText" spellcheck="false">${esc(st.meta.systemNotesText)}</textarea>
-          <div class="row">
-            <button class="btn" id="notesSave">Save</button>
-          </div>
-        </div>
+    <div class="card" style="margin-bottom:16px">
+      <div class="h2" style="margin-bottom:6px">North Star</div>
+      <div id="nsPreview" class="nsPreview"></div>
+      <textarea id="nsText" class="nsText" spellcheck="false">${esc(st.meta.northStarText)}</textarea>
+      <div class="row" style="margin-top:10px">
+        <button class="btn primary" id="nsSave">Save</button>
+        <div class="small muted">Keep this short. Read it in 5 seconds.</div>
       </div>
+    </div>
 
+    <div class="grid2">
       <div class="stack">
         <div class="card">
-          <div class="h2">Focus strip</div>
-          <div class="muted">Your two active threads for the week.</div>
-          <div class="slot"><div class="small">Weekly Slot #1</div><select id="slot1">${threadOptions}</select></div>
-          <div class="slot"><div class="small">Weekly Slot #2</div><select id="slot2">${threadOptions}</select></div>
-          <div class="row"><button class="btn primary" id="slotsSave">Save</button></div>
+          <div class="h2">MVT: Most Valuable Task</div>
+          <div class="field">
+            <label>Today's MVT</label>
+            <select id="mvtThread">${threadOptions}</select>
+          </div>
+          <div class="row"><button class="btn primary" id="mvtSave">Save</button></div>
         </div>
 
         <div class="card">
@@ -1490,14 +1475,15 @@ function initMorningMap(){
           </div>
           <div class="row"><button class="btn primary" id="igSave">Save</button></div>
         </div>
+      </div>
 
+      <div class="stack">
         <div class="card">
-          <div class="h2">MVT: Most Valuable Task</div>
-          <div class="field">
-            <label>Today's MVT</label>
-            <select id="mvtThread">${threadOptions}</select>
-          </div>
-          <div class="row"><button class="btn primary" id="mvtSave">Save</button></div>
+          <div class="h2">Focus strip</div>
+          <div class="muted">Your two active threads for the week.</div>
+          <div class="slot"><div class="small">Weekly Slot #1</div><select id="slot1">${threadOptions}</select></div>
+          <div class="slot"><div class="small">Weekly Slot #2</div><select id="slot2">${threadOptions}</select></div>
+          <div class="row"><button class="btn primary" id="slotsSave">Save</button></div>
         </div>
 
         <div class="card">
@@ -1532,7 +1518,6 @@ function initMorningMap(){
   document.getElementById('nsText')?.addEventListener('input', updatePreview);
 
   document.getElementById('nsSave')?.addEventListener('click',()=>{ st.meta.northStarText = document.getElementById('nsText').value; saveState(st); toast('Saved'); updatePreview(); });
-  document.getElementById('notesSave')?.addEventListener('click',()=>{ st.meta.systemNotesText = document.getElementById('notesText').value; saveState(st); toast('Saved'); });
   document.getElementById('mmScratchSave')?.addEventListener('click',()=>{ st.meta.morningScratch = document.getElementById('mmScratch').value; saveState(st); toast('Saved'); });
   document.getElementById('sparkSave')?.addEventListener('click',()=>{ st.meta.sparkNotes = document.getElementById('sparkNotes').value; saveState(st); toast('Saved'); });
   document.getElementById('slotsSave')?.addEventListener('click',()=>{
