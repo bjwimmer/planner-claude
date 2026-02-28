@@ -795,13 +795,13 @@ function initThreadRegistry(){
             <span class="mono">Updated: ${new Date(t.updatedAt).toLocaleString()}</span>
           </div>
           ${backlinksHtml}
-          <div class="grid" style="margin-top:10px; align-items:flex-start">
+          <div class="grid" style="margin-top:10px; align-items:flex-start; grid-template-columns: 1fr auto">
             <div>
               <label>Next micro-action (5–20 min)</label>
               <textarea data-next="${t.id}" placeholder="Example: Open file and write 5 bullets" rows="2" style="min-height:60px;resize:vertical">${escapeHtml(t.nextAction || "")}</textarea>
             </div>
             <div>
-              <label>Status</label>
+              <label style="min-height:36px; display:flex; align-items:flex-start">Status</label>
               <select data-status="${t.id}">
                 <option value="active"   ${t.status==="active"  ?"selected":""}>active</option>
                 <option value="paused"   ${t.status==="paused"  ?"selected":""}>paused</option>
@@ -1120,7 +1120,7 @@ function initLifeMap(){
               <span class="pill domain-pill" data-domain="${escapeAttr(domain.toLowerCase())}">${escapeHtml(domain)}</span>
             </div>
             ${threadLinksHtml(g)}
-            ${(()=>{ const linked = (g.linkedThreadIds||[]).map(id=>st.threads.find(t=>t.id===id)).filter(Boolean); const actions = linked.map(t=>t.nextAction).filter(Boolean); return actions.length ? `<div style="margin-top:8px; padding:8px 10px; background:rgba(254,243,199,.70); border-left:4px solid rgba(217,119,6,.80); border-radius:0 8px 8px 0"><div style="font-size:11px; font-weight:700; color:#92400e; letter-spacing:.8px; margin-bottom:3px">⚡ NEXT ACTION ⚡</div><div style="font-size:14px; font-weight:700; color:#78350f">${escapeHtml(actions[0])}</div></div>` : ""; })()}
+            ${(()=>{ const linked = (g.linkedThreadIds||[]).map(id=>st.threads.find(t=>t.id===id)).filter(Boolean); const actions = linked.map(t=>t.nextAction).filter(Boolean); return actions.length ? `<div style="margin-top:8px; padding:8px 10px; background:rgba(239,246,255,.85); border-left:4px solid rgba(37,99,235,.60); border-radius:0 8px 8px 0"><div style="font-size:11px; font-weight:700; color:#1e40af; letter-spacing:.8px; margin-bottom:3px"><span style="color:#f59e0b">⚡</span> NEXT ACTION <span style="color:#f59e0b">⚡</span></div><div style="font-size:14px; font-weight:700; color:#1e3a8a">${escapeHtml(actions[0])}</div></div>` : ""; })()}
           </div>
           <div class="row" style="justify-content:flex-end; gap:8px">
             ${leftBtn}
