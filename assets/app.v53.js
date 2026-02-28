@@ -1439,23 +1439,7 @@ function initMorningMap(){
   ).join('');
 
   container.innerHTML = `
-    <div class="card hero">
-      <div class="h1">Morning Map</div>
-      <div class="muted">Orientation first. Execution second.</div>
-    </div>
 
-    <div class="quicklinksCard card">
-      <div class="cardHeader">
-        <div class="h2">Quick links</div>
-      </div>
-      <div class="quicklinksGrid">
-        <a class="btn big" href="quick-capture.html">⚡ Quick Capture</a>
-        <a class="btn big" href="thread-registry.html">Thread Registry</a>
-        <a class="btn big" href="strategic-life-map.html">Strategic Life Map</a>
-        <a class="btn big" href="90-day-income-map.html">90‑Day Income Map</a>
-        <a class="btn big" href="how-this-works.html">How This Works</a>
-      </div>
-    </div>
 
     <div class="grid2">
       <div class="card">
