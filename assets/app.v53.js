@@ -1415,6 +1415,7 @@ function initMorningMap(){
   dbgMarkInit('morningMap');
   const container = document.querySelector('.container');
   if(!container) return;
+  initCommon();
   const st = loadState();
   ensureLifeMapSchema(st);
 
@@ -1427,11 +1428,6 @@ function initMorningMap(){
   if(!st.meta.ignitionTimebox)   st.meta.ignitionTimebox   = '10';
   if(!st.meta.mvtThreadId)       st.meta.mvtThreadId       = '';
   if(!st.meta.sparkNotes)        st.meta.sparkNotes        = '';
-
-  setSyncIndicator();
-  wireModal();
-  autoPullIfEnabled();
-  renderFooter(st);
 
   const threads = (st.threads || []).filter(t=>t.status!=="archived");
   const threadOptions = ['<option value="">—</option>'].concat(
