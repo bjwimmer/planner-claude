@@ -1425,7 +1425,7 @@ function initMorningMap(){
   if(!st.meta.ignitionIntent)    st.meta.ignitionIntent    = '';
   if(!st.meta.ignitionFirstMove) st.meta.ignitionFirstMove = '';
   if(!st.meta.ignitionTimebox)   st.meta.ignitionTimebox   = '10';
-  if(!st.meta.mvdThreadId)       st.meta.mvdThreadId       = '';
+  if(!st.meta.mvtThreadId)       st.meta.mvtThreadId       = '';
   if(!st.meta.sparkNotes)        st.meta.sparkNotes        = '';
 
   setSyncIndicator();
@@ -1496,12 +1496,12 @@ function initMorningMap(){
         </div>
 
         <div class="card">
-          <div class="h2">MVD for today</div>
+          <div class="h2">MVT: Most Valuable Task</div>
           <div class="field">
-            <label>Today's MVD thread</label>
-            <select id="mvdThread">${threadOptions}</select>
+            <label>Today's MVT</label>
+            <select id="mvtThread">${threadOptions}</select>
           </div>
-          <div class="row"><button class="btn primary" id="mvdSave">Save</button></div>
+          <div class="row"><button class="btn primary" id="mvtSave">Save</button></div>
         </div>
 
         <div class="card">
@@ -1522,10 +1522,10 @@ function initMorningMap(){
   // Set dropdown values
   const slot1El = document.getElementById('slot1');
   const slot2El = document.getElementById('slot2');
-  const mvdEl   = document.getElementById('mvdThread');
+  const mvdEl   = document.getElementById('mvtThread');
   if(slot1El) slot1El.value = st.weeklySlots?.slot1 || '';
   if(slot2El) slot2El.value = st.weeklySlots?.slot2 || '';
-  if(mvdEl)   mvdEl.value   = st.meta.mvdThreadId   || '';
+  if(mvdEl)   mvdEl.value   = st.meta.mvtThreadId   || '';
 
   const updatePreview = ()=>{
     const first = (document.getElementById('nsText')?.value||'').split('\n').find(l=>l.trim())||'';
@@ -1551,7 +1551,7 @@ function initMorningMap(){
     st.meta.ignitionTimebox   = document.getElementById('igTimebox').value;
     saveState(st); toast('Saved');
   });
-  document.getElementById('mvdSave')?.addEventListener('click',()=>{ st.meta.mvdThreadId = document.getElementById('mvdThread').value; saveState(st); toast('Saved'); });
+  document.getElementById('mvtSave')?.addEventListener('click',()=>{ st.meta.mvtThreadId = document.getElementById('mvtThread').value; saveState(st); toast('Saved'); });
 }
 
 // =============================================================
