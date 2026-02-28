@@ -798,7 +798,7 @@ function initThreadRegistry(){
           <div class="grid" style="margin-top:10px">
             <div>
               <label>Next micro-action (5–20 min)</label>
-              <input value="${escapeHtml(t.nextAction || "")}" data-next="${t.id}" placeholder="Example: Open file and write 5 bullets"/>
+              <textarea data-next="${t.id}" placeholder="Example: Open file and write 5 bullets" rows="2" style="min-height:60px;resize:vertical">${escapeHtml(t.nextAction || "")}</textarea>
             </div>
             <div>
               <label>Status</label>
@@ -1120,6 +1120,7 @@ function initLifeMap(){
               <span class="pill domain-pill" data-domain="${escapeAttr(domain.toLowerCase())}">${escapeHtml(domain)}</span>
             </div>
             ${threadLinksHtml(g)}
+            ${(()=>{ const linked = (g.linkedThreadIds||[]).map(id=>st.threads.find(t=>t.id===id)).filter(Boolean); const actions = linked.map(t=>t.nextAction).filter(Boolean); return actions.length ? `<div class="small" style="margin-top:6px; color:#1e40af; font-style:italic">⚡ ${escapeHtml(actions[0])}</div>` : ""; })()}
           </div>
           <div class="row" style="justify-content:flex-end; gap:8px">
             ${leftBtn}
