@@ -567,6 +567,7 @@ function domainClass(domainRaw){
   if(d.includes("work") || d.includes("job") || d.includes("career") || d.includes("employ")) return "domain-work";
   if(d.includes("income") || d.includes("money") || d.includes("revenue") || d.includes("earn")) return "domain-income";
   if(d.includes("creative") || d.includes("meaning") || d.includes("writing") || d.includes("art")) return "domain-creative-meaning";
+  if(d.includes("personal") || d.includes("self")) return "domain-personal";
   return "domain-other";
 }
 
