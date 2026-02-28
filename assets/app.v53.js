@@ -880,47 +880,35 @@ function initThreadRegistry(){
               else st.weekly.slot2=id;
             }
 
-            // Find existing linked goal across ALL horizons
-            let existingGoal = null;
-            let existingHKey = null;
-            let existingDomain = null;
+            // First: sweep all horizons and collect ALL linked goals for this thread
+            const allLinked = [];
             for(const hk of horizonKeys){
               for(const d of (st.lifeMap.domains||[])){
                 const list = st.lifeMap.horizons[hk]?.domains?.[d] || [];
-                const found = list.find(g=>
-                  Array.isArray(g.linkedThreadIds) && g.linkedThreadIds.map(String).includes(String(id))
-                );
-                if(found){
-                  existingGoal = found;
-                  existingHKey = hk;
-                  existingDomain = d;
-                  break;
-                }
+                list.forEach((g,i)=>{
+                  const ids = Array.isArray(g.linkedThreadIds) ? g.linkedThreadIds : (g.threadId ? [g.threadId] : []);
+                  if(ids.map(String).includes(String(id))){
+                    allLinked.push({g, hk, d, i});
+                  }
+                });
               }
-              if(existingGoal) break;
             }
 
-            if(existingGoal && existingHKey === hKey){
-              // Already in the right horizon — nothing to do
-              pop.remove();
-              toast(`Already in ${st.lifeMap.horizons[hKey].label}`);
-              return;
+            // Remove all existing linked goals (we'll re-add to the target horizon)
+            const goalToKeep = allLinked.length > 0 ? allLinked[0].g : null;
+            for(const {hk, d, g} of allLinked){
+              const list = st.lifeMap.horizons[hk].domains[d];
+              const idx = list.findIndex(x=>String(x.id)===String(g.id));
+              if(idx >= 0) list.splice(idx, 1);
             }
 
-            if(existingGoal){
-              // Move: remove from old horizon, add to new
-              const fromList = st.lifeMap.horizons[existingHKey].domains[existingDomain];
-              const idx = fromList.findIndex(g=>String(g.id)===String(existingGoal.id));
-              if(idx >= 0) fromList.splice(idx, 1);
-
-              const toList = st.lifeMap.horizons[hKey].domains;
-              if(!toList[domain]) toList[domain] = [];
-              existingGoal.updatedAt = nowIso();
-              toList[domain].unshift(existingGoal);
+            // Place goal in target horizon
+            const toList = st.lifeMap.horizons[hKey].domains;
+            if(!toList[domain]) toList[domain] = [];
+            if(goalToKeep){
+              goalToKeep.updatedAt = nowIso();
+              toList[domain].unshift(goalToKeep);
             } else {
-              // No existing linked goal — create one
-              const toList = st.lifeMap.horizons[hKey].domains;
-              if(!toList[domain]) toList[domain] = [];
               const now = nowIso();
               toList[domain].unshift({
                 id: uid(), title: th.title, notes: "", urgency: "medium",
