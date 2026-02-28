@@ -871,6 +871,7 @@ function initThreadRegistry(){
           hBtn.addEventListener("click", ()=>{
             const hKey = hBtn.getAttribute("data-sch-horizon");
             const domain = th.domain || st.lifeMap.domains[0];
+            const horizonKeys = ["week","month","quarter"];
 
             // Add to weekly slot if This Week
             if(hKey==="week"){
@@ -879,20 +880,52 @@ function initThreadRegistry(){
               else st.weekly.slot2=id;
             }
 
-            // Add goal to Life Map horizon if not already there
-            const horizonDomains = st.lifeMap.horizons[hKey]?.domains;
-            if(horizonDomains){
-              if(!horizonDomains[domain]) horizonDomains[domain]=[];
-              const alreadyLinked = horizonDomains[domain].some(g=>
-                Array.isArray(g.linkedThreadIds) && g.linkedThreadIds.map(String).includes(String(id))
-              );
-              if(!alreadyLinked){
-                const now = nowIso();
-                horizonDomains[domain].unshift({
-                  id: uid(), title: th.title, notes: "", urgency: "medium",
-                  createdAt: now, updatedAt: now, linkedThreadIds: [id]
-                });
+            // Find existing linked goal across ALL horizons
+            let existingGoal = null;
+            let existingHKey = null;
+            let existingDomain = null;
+            for(const hk of horizonKeys){
+              for(const d of (st.lifeMap.domains||[])){
+                const list = st.lifeMap.horizons[hk]?.domains?.[d] || [];
+                const found = list.find(g=>
+                  Array.isArray(g.linkedThreadIds) && g.linkedThreadIds.map(String).includes(String(id))
+                );
+                if(found){
+                  existingGoal = found;
+                  existingHKey = hk;
+                  existingDomain = d;
+                  break;
+                }
               }
+              if(existingGoal) break;
+            }
+
+            if(existingGoal && existingHKey === hKey){
+              // Already in the right horizon — nothing to do
+              pop.remove();
+              toast(`Already in ${st.lifeMap.horizons[hKey].label}`);
+              return;
+            }
+
+            if(existingGoal){
+              // Move: remove from old horizon, add to new
+              const fromList = st.lifeMap.horizons[existingHKey].domains[existingDomain];
+              const idx = fromList.findIndex(g=>String(g.id)===String(existingGoal.id));
+              if(idx >= 0) fromList.splice(idx, 1);
+
+              const toList = st.lifeMap.horizons[hKey].domains;
+              if(!toList[domain]) toList[domain] = [];
+              existingGoal.updatedAt = nowIso();
+              toList[domain].unshift(existingGoal);
+            } else {
+              // No existing linked goal — create one
+              const toList = st.lifeMap.horizons[hKey].domains;
+              if(!toList[domain]) toList[domain] = [];
+              const now = nowIso();
+              toList[domain].unshift({
+                id: uid(), title: th.title, notes: "", urgency: "medium",
+                createdAt: now, updatedAt: now, linkedThreadIds: [id]
+              });
             }
 
             saveState(st);
