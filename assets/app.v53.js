@@ -1115,7 +1115,7 @@ function initLifeMap(){
         <div class="domain-strip"></div>
         <div class="goal-head">
           <div>
-            <strong>${escapeHtml(g.title||"")}</strong>
+            <strong><span style="font-size:11px; font-weight:700; color:#92400e; letter-spacing:.6px; margin-right:6px">GOAL:</span>${escapeHtml(g.title||"")}</strong>
             <div class="meta">
               <span class="pill domain-pill" data-domain="${escapeAttr(domain.toLowerCase())}">${escapeHtml(domain)}</span>
             </div>
