@@ -806,7 +806,7 @@ function initThreadRegistry(){
           <div class="row" style="margin-top:10px">
             <button class="btn primary" data-save="${t.id}">Save</button>
             <button class="btn"         data-edit="${t.id}">Edit</button>
-            <button class="btn"         data-focus="${t.id}">Focus this week</button>
+            <button class="btn"         data-schedule="${t.id}">Schedule</button>
             <button class="btn warn"    data-copy="${t.id}">Copy micro-action</button>
             <button class="btn bad"     data-delete="${t.id}">Delete</button>
           </div>
@@ -837,13 +837,70 @@ function initThreadRegistry(){
       });
     });
 
-    threadsEl.querySelectorAll("[data-focus]").forEach(btn=>{
+    threadsEl.querySelectorAll("[data-schedule]").forEach(btn=>{
       btn.addEventListener("click", ()=>{
-        const id = btn.getAttribute("data-focus");
-        if(!st.weekly.slot1) st.weekly.slot1=id;
-        else if(!st.weekly.slot2) st.weekly.slot2=id;
-        else st.weekly.slot2=id;
-        saveState(st); renderFooter(st); render();
+        const id = btn.getAttribute("data-schedule");
+        const th = st.threads.find(x=>String(x.id)===String(id));
+        if(!th) return;
+
+        // Build popup
+        const existing = document.getElementById("__schedulePop");
+        if(existing) existing.remove();
+
+        const pop = document.createElement("div");
+        pop.id = "__schedulePop";
+        pop.style.cssText = "position:fixed;top:0;left:0;width:100%;height:100%;background:rgba(0,0,0,.45);z-index:99998;display:flex;align-items:center;justify-content:center";
+        pop.innerHTML = `
+          <div style="background:#fff;border-radius:16px;padding:28px 32px;min-width:280px;box-shadow:0 8px 40px rgba(0,0,0,.18)">
+            <div style="font-weight:700;font-size:16px;margin-bottom:6px">Schedule thread</div>
+            <div style="font-size:13px;color:#64748b;margin-bottom:18px">${escapeHtml(th.title)}</div>
+            <div style="display:flex;flex-direction:column;gap:10px">
+              <button class="btn primary" data-sch-horizon="week"    style="text-align:left">📅 This Week <span style="font-size:11px;opacity:.7;margin-left:6px">— also adds to weekly slot</span></button>
+              <button class="btn"         data-sch-horizon="month"   style="text-align:left">🗓 This Month</button>
+              <button class="btn"         data-sch-horizon="quarter" style="text-align:left">🔭 3 Months</button>
+            </div>
+            <div style="margin-top:16px"><button class="btn" id="__schCancel">Cancel</button></div>
+          </div>
+        `;
+        document.body.appendChild(pop);
+
+        document.getElementById("__schCancel").onclick = ()=>pop.remove();
+        pop.addEventListener("click", e=>{ if(e.target===pop) pop.remove(); });
+
+        pop.querySelectorAll("[data-sch-horizon]").forEach(hBtn=>{
+          hBtn.addEventListener("click", ()=>{
+            const hKey = hBtn.getAttribute("data-sch-horizon");
+            const domain = th.domain || st.lifeMap.domains[0];
+
+            // Add to weekly slot if This Week
+            if(hKey==="week"){
+              if(!st.weekly.slot1) st.weekly.slot1=id;
+              else if(!st.weekly.slot2) st.weekly.slot2=id;
+              else st.weekly.slot2=id;
+            }
+
+            // Add goal to Life Map horizon if not already there
+            const horizonDomains = st.lifeMap.horizons[hKey]?.domains;
+            if(horizonDomains){
+              if(!horizonDomains[domain]) horizonDomains[domain]=[];
+              const alreadyLinked = horizonDomains[domain].some(g=>
+                Array.isArray(g.linkedThreadIds) && g.linkedThreadIds.map(String).includes(String(id))
+              );
+              if(!alreadyLinked){
+                const now = nowIso();
+                horizonDomains[domain].unshift({
+                  id: uid(), title: th.title, notes: "", urgency: "medium",
+                  createdAt: now, updatedAt: now, linkedThreadIds: [id]
+                });
+              }
+            }
+
+            saveState(st);
+            pop.remove();
+            toast(`Scheduled → ${st.lifeMap.horizons[hKey].label}`);
+            renderFooter(st); render();
+          });
+        });
       });
     });
 
