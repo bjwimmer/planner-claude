@@ -767,14 +767,22 @@ function initThreadRegistry(){
       .sort((a,b)=>b.updatedAt.localeCompare(a.updatedAt));
 
     threadsEl.innerHTML = activeThreads.length ? activeThreads.map(t=>{
-      const inSlot = (String(st.weekly.slot1)===String(t.id) || String(st.weekly.slot2)===String(t.id));
       const domainPillColor = t.domain ? ` domain-pill" data-domain="${escapeAttr((t.domain||"").toLowerCase())}` : ``;
-      const pill = inSlot ? `<span class="pill good">Active this week</span>` : `<span class="pill warn">⏳ Unscheduled</span>`;
       const links = threadBacklinks(t.id);
-      const backlinksHtml = links.length ? `<div class="meta" style="margin-top:6px; flex-wrap:wrap; gap:6px; display:flex">
-        <span class="small" style="color:var(--muted); align-self:center">📍 Goals:</span>
-        ${links.map(l=>`<a href="strategic-life-map.html?focusGoal=${encodeURIComponent(l.goalId)}" class="thread-link-pill" style="text-decoration:none"><span class="tlp-icon">🎯</span><span class="tlp-title">${escapeHtml(l.goalTitle)}</span><span class="tlp-status tls-idle">${escapeHtml(l.hLabel)}</span></a>`).join("")}
-      </div>` : "";
+
+      // Single consolidated schedule pill
+      const horizonStyles = {
+        week:    { bg:"#bbf7d0", color:"#166534", label:"\uD83D\uDCC5 This Week" },
+        month:   { bg:"#bfdbfe", color:"#1e40af", label:"\uD83D\uDDD3 This Month" },
+        quarter: { bg:"#e9d5ff", color:"#6b21a8", label:"\uD83D\uDD2D 3 Months" },
+      };
+      const topLink = links.length ? links[0] : null;
+      const schedStyle = topLink ? (horizonStyles[topLink.hKey] || horizonStyles.week) : null;
+      const pill = topLink
+        ? `<a href="strategic-life-map.html?focusGoal=${encodeURIComponent(topLink.goalId)}" style="text-decoration:none"><span class="pill" style="background:${schedStyle.bg};color:${schedStyle.color};border:none;font-weight:600">${schedStyle.label}</span></a>`
+        : `<span class="pill" style="background:#f1f5f9;color:#64748b;border:none">⏳ Unscheduled</span>`;
+
+      const backlinksHtml = "";
 
       return `
         <div class="item ${domainClass(t.domain)}" data-thread-card="${t.id}" id="thread-${t.id}">
