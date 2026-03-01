@@ -270,7 +270,16 @@ function defaultState(){
     threads: [],
     weekly: { slot1: null, slot2: null, weekOf: null },
     lifeMap: defaultLifeMap(),
-    incomeMap: { startDate: null }
+    incomeMap: { startDate: null },
+    longView: {
+      objectives: [
+        { id:"debt",     label:"No consumer debt",                goals:["","",""] },
+        { id:"housing",  label:"Clear housing path",              goals:["","",""] },
+        { id:"income",   label:"Sustainable, sufficient income",  goals:["","",""] },
+        { id:"creative", label:"Time and space for creative work",goals:["","",""] },
+        { id:"health",   label:"Health managed deliberately",     goals:["","",""] },
+      ]
+    }
   };
 }
 
@@ -294,6 +303,16 @@ function loadState(){
     if(!st.weekly) st.weekly = { slot1:null, slot2:null, weekOf:null };
     st.lifeMap = normalizeLifeMap(st.lifeMap);
     if(!st.incomeMap) st.incomeMap = { startDate:null };
+    if(!st.longView) st.longView = {
+      objectives: [
+        { id:"debt",     label:"No consumer debt",                goals:["","",""] },
+        { id:"housing",  label:"Clear housing path",              goals:["","",""] },
+        { id:"income",   label:"Sustainable, sufficient income",  goals:["","",""] },
+        { id:"creative", label:"Time and space for creative work",goals:["","",""] },
+        { id:"health",   label:"Health managed deliberately",     goals:["","",""] },
+      ]
+    };
+    st.longView.objectives.forEach(o=>{ while(o.goals.length<3) o.goals.push(""); });
     return st;
   }catch(e){
     console.warn("State load failed, resetting", e);
