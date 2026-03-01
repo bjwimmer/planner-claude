@@ -1536,6 +1536,112 @@ function initMorningMap(){
 }
 
 // =============================================================
+// --- Long View ---
+// =============================================================
+function initLongView(){
+  dbgMarkInit('longView');
+  const st = initCommon();
+  const container = document.getElementById('mainContent');
+  if(!container) return;
+
+  const domainColors = {
+    debt:     'domain-financial',
+    housing:  'domain-home',
+    income:   'domain-income',
+    creative: 'domain-personal',
+    health:   'domain-health',
+  };
+
+  function render(){
+    const objs = st.longView.objectives;
+    container.innerHTML = `
+      <div style="margin-bottom:18px">
+        <div class="h2" style="font-size:20px; margin-bottom:4px">🔭 Long View</div>
+        <div class="muted">Your objectives and the goals beneath them. Use this to populate the planner.</div>
+      </div>
+      ${objs.map(obj => `
+        <div class="card" style="margin-bottom:16px">
+          <div class="domain-strip ${domainColors[obj.id] || ''}"></div>
+          <div class="h2" style="font-size:17px; margin-bottom:12px">🎯 ${escapeHtml(obj.label)}</div>
+          ${obj.goals.map((g, i) => `
+            <div class="field" style="margin-bottom:10px">
+              <div class="row" style="gap:8px; align-items:center">
+                <input
+                  type="text"
+                  class="lv-goal-input"
+                  data-obj="${obj.id}"
+                  data-idx="${i}"
+                  placeholder="Goal ${i+1} — what does progress look like in 12 weeks?"
+                  value="${escapeHtml(g)}"
+                  style="flex:1"
+                />
+                <button
+                  class="btn mini lv-make-thread"
+                  data-obj="${obj.id}"
+                  data-idx="${i}"
+                  title="Send to Thread Registry"
+                  ${g.trim() ? '' : 'disabled'}
+                >Make Thread</button>
+              </div>
+            </div>
+          `).join('')}
+          <div class="row" style="margin-top:6px">
+            <button class="btn lv-save" data-obj="${obj.id}">Save</button>
+          </div>
+        </div>
+      `).join('')}
+    `;
+
+    // Save buttons
+    container.querySelectorAll('.lv-save').forEach(btn => {
+      btn.addEventListener('click', () => {
+        const objId = btn.getAttribute('data-obj');
+        const obj   = st.longView.objectives.find(o => o.id === objId);
+        if(!obj) return;
+        container.querySelectorAll(`.lv-goal-input[data-obj="${objId}"]`).forEach(inp => {
+          const idx = Number(inp.getAttribute('data-idx'));
+          obj.goals[idx] = inp.value.trim();
+        });
+        saveState(st);
+        toast('Saved');
+        render(); // re-render to update disabled state on Make Thread buttons
+      });
+    });
+
+    // Make Thread buttons
+    container.querySelectorAll('.lv-make-thread').forEach(btn => {
+      btn.addEventListener('click', () => {
+        const objId = btn.getAttribute('data-obj');
+        const idx   = Number(btn.getAttribute('data-idx'));
+        const obj   = st.longView.objectives.find(o => o.id === objId);
+        if(!obj) return;
+        const goalText = obj.goals[idx];
+        if(!goalText) return;
+        const domainMap = {
+          debt: 'Financial', housing: 'Home',
+          income: 'Income', creative: 'Personal', health: 'Health'
+        };
+        const now = nowIso();
+        st.threads.push({
+          id: uid(),
+          title: goalText,
+          status: 'active',
+          domain: domainMap[objId] || 'Personal',
+          nextAction: '',
+          notes: `Created from Long View objective: ${obj.label}`,
+          createdAt: now,
+          updatedAt: now,
+        });
+        saveState(st);
+        toast('Thread created in Thread Registry.');
+      });
+    });
+  }
+
+  render();
+}
+
+// =============================================================
 // --- Overview (simple read-only) ---
 // =============================================================
 function initOverview(){
