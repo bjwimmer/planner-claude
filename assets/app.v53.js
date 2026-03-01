@@ -1666,7 +1666,16 @@ function initLongView(){
 // =============================================================
 function initOverview(){
   dbgMarkInit('overview');
-  initCommon();
+  const st = initCommon();
+  const notesEl = document.getElementById('notesText');
+  if(notesEl){
+    notesEl.value = st.meta.systemNotesText || '';
+    document.getElementById('notesSave')?.addEventListener('click',()=>{
+      st.meta.systemNotesText = notesEl.value;
+      saveState(st);
+      toast('Saved');
+    });
+  }
 }
 
 // =============================================================
