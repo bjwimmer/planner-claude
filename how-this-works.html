@@ -28,38 +28,116 @@
           </label>
         </div>
       </div>
-      <div class="nav">
-        <a data-nav href="index.html">Map</a>
-        <a data-nav href="quick-capture.html">⚡ Quick Capture</a>
-        <a data-nav href="strategic-life-map.html">Strategic Life Map</a>
-        <a data-nav href="thread-registry.html">Thread Registry</a>
-        <a data-nav href="90-day-income-map.html">90‑Day Income Map</a>
-        <a data-nav href="how-this-works.html">How This Works</a>
-      </div>
+      <div class="nav"></div>
     </div>
   </div>
 
-  <div class="container">
-    <div class="card">
-      <h2>30-second version</h2>
-      <div class="list">
-        <div class="item"><strong>1) Capture everything fast</strong><p class="small">If it's in your head, it's stealing RAM.</p></div>
-        <div class="item"><strong>2) Only two active threads per week</strong><p class="small">Constraint beats guilt.</p></div>
-        <div class="item"><strong>3) Every thread must have a next micro-action</strong><p class="small">If it's not 5–20 minutes, it's still fog.</p></div>
-        <div class="item"><strong>4) Big-picture pages are scheduled</strong><p class="small">No "strategic thinking" as avoidance.</p></div>
-        <div class="item"><strong>5) Sync + Export</strong><p class="small">Auto-pull keeps devices aligned. Manual push prevents accidental overwrite.</p></div>
+  <div class="container" id="mainContent" style="padding-top:18px; padding-bottom:28px">
+
+    <!-- THE HIERARCHY -->
+    <div class="card" style="margin-bottom:16px">
+      <div class="h2" style="font-size:20px; margin-bottom:4px">🧭 The Big Picture</div>
+      <div class="muted" style="margin-bottom:16px">This system is built around one principle: start with the end in mind, then work backward.</div>
+
+      <div style="display:flex; flex-direction:column; gap:10px; margin-bottom:8px">
+        <div style="background:rgba(99,102,241,.08); border-left:4px solid #6366f1; border-radius:8px; padding:12px 16px">
+          <div style="font-weight:700; margin-bottom:2px">🎯 Objectives</div>
+          <div class="small muted">The stable anchors of your life. Rarely change. These live on the <strong>Long View</strong> page and in your North Star.</div>
+        </div>
+        <div style="text-align:center; color:var(--muted); font-size:18px">↓</div>
+        <div style="background:rgba(245,158,11,.08); border-left:4px solid #f59e0b; border-radius:8px; padding:12px 16px">
+          <div style="font-weight:700; margin-bottom:2px">📌 Goals</div>
+          <div class="small muted">Specific outcomes you want to reach in the next 12 weeks. 2–3 per objective. Also on the <strong>Long View</strong> page, and promoted into the <strong>Strategic Life Map</strong> when active.</div>
+        </div>
+        <div style="text-align:center; color:var(--muted); font-size:18px">↓</div>
+        <div style="background:rgba(16,185,129,.08); border-left:4px solid #10b981; border-radius:8px; padding:12px 16px">
+          <div style="font-weight:700; margin-bottom:2px">🧵 Threads &amp; Actions</div>
+          <div class="small muted">The active work. Each thread is a named pursuit with a single micro-action (5–20 min). These live in the <strong>Thread Registry</strong> and surface daily on the <strong>Morning Map</strong>.</div>
+        </div>
       </div>
-      <hr/>
-      <h2>How you'll actually use it</h2>
-      <ul style="color:var(--muted); line-height:1.6">
-        <li><strong>On phone:</strong> Quick Capture. (Then Push when you want it synced.)</li>
-        <li><strong>On desktop:</strong> Registry + writing longer notes. (Then Push.)</li>
-        <li><strong>Before switching devices:</strong> Push on the device you just used.</li>
-      </ul>
-      <hr/>
-      <h3>Security note</h3>
-      <p class="small">Your GitHub token is stored only in this browser on this device. Use a fine-grained token limited to Gists.</p>
     </div>
+
+    <!-- THE PAGES -->
+    <div class="card" style="margin-bottom:16px">
+      <div class="h2" style="font-size:20px; margin-bottom:16px">📄 What Each Page Does</div>
+
+      <div style="display:flex; flex-direction:column; gap:14px">
+
+        <div style="border-bottom:1px solid rgba(0,0,0,.07); padding-bottom:14px">
+          <div style="font-weight:700; margin-bottom:3px">🗺 Morning Map <span class="small muted">(index.html)</span></div>
+          <div class="small">Your daily starting point. Read your North Star, pick your MVT (Most Valuable Task), set your intent and first move for the session. Scratchpad and Spark Capture for anything that surfaces. Open this first, every day.</div>
+        </div>
+
+        <div style="border-bottom:1px solid rgba(0,0,0,.07); padding-bottom:14px">
+          <div style="font-weight:700; margin-bottom:3px">⚡ Quick Capture</div>
+          <div class="small">Brain dump. If a thought, idea, or task surfaces and you don't want to lose it, put it here immediately. Don't organize — just capture. Process it later into threads or goals.</div>
+        </div>
+
+        <div style="border-bottom:1px solid rgba(0,0,0,.07); padding-bottom:14px">
+          <div style="font-weight:700; margin-bottom:3px">🗺 Strategic Life Map</div>
+          <div class="small">Your active planning layer. Goals organized by domain across three time horizons — This Week, This Month, and 3 Months. Promote goals forward as they become urgent. Default landing is 3 Months so you always see the full picture first.</div>
+        </div>
+
+        <div style="border-bottom:1px solid rgba(0,0,0,.07); padding-bottom:14px">
+          <div style="font-weight:700; margin-bottom:3px">🧵 Thread Registry</div>
+          <div class="small">Every active pursuit lives here as a named thread with a domain, status, notes, and a single micro-action. Two threads are pinned to your weekly Focus Strip on the Morning Map. Threads can be linked to goals on the Strategic Life Map.</div>
+        </div>
+
+        <div style="border-bottom:1px solid rgba(0,0,0,.07); padding-bottom:14px">
+          <div style="font-weight:700; margin-bottom:3px">🔭 Long View</div>
+          <div class="small">Your objectives and the goals beneath them. Quiet, out of daily sight, but the source of everything. Use it when doing longer-term thinking, then send goals into the planner with the Make Thread button. Visit periodically — not daily.</div>
+        </div>
+
+        <div>
+          <div style="font-weight:700; margin-bottom:3px">📜 How This Works</div>
+          <div class="small">You're here. Reference page. Out of the way but always available.</div>
+        </div>
+
+      </div>
+    </div>
+
+    <!-- DAILY RHYTHM -->
+    <div class="card" style="margin-bottom:16px">
+      <div class="h2" style="font-size:20px; margin-bottom:12px">⏱ Daily Rhythm</div>
+      <div style="display:flex; flex-direction:column; gap:10px">
+        <div style="background:rgba(99,102,241,.06); border-radius:8px; padding:12px 16px">
+          <div style="font-weight:700; margin-bottom:3px">☀️ Morning (5 min)</div>
+          <div class="small muted">Open Morning Map. Read North Star. Set MVT. Fill in Intent and First Move. Start the timebox.</div>
+        </div>
+        <div style="background:rgba(16,185,129,.06); border-radius:8px; padding:12px 16px">
+          <div style="font-weight:700; margin-bottom:3px">🌙 Evening (5 min)</div>
+          <div class="small muted">Note one win in the Scratchpad. Update the micro-action on any thread you touched. Capture any loose thoughts in Quick Capture. Hand one thought off to tomorrow.</div>
+        </div>
+        <div style="background:rgba(245,158,11,.06); border-radius:8px; padding:12px 16px">
+          <div style="font-weight:700; margin-bottom:3px">📅 Weekly (15 min)</div>
+          <div class="small muted">Review all active threads in the Registry — reactivate anything that's gone quiet. Update Focus Strip slots for the coming week. Glance at Strategic Life Map to see if anything needs promoting.</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- SYNC -->
+    <div class="card" style="margin-bottom:16px">
+      <div class="h2" style="font-size:20px; margin-bottom:12px">☁️ Sync &amp; Data</div>
+      <div class="small" style="line-height:1.8">
+        All data is stored in a single <span class="mono">planner-data.json</span> file in a private GitHub Gist. 
+        Auto-pull loads your latest data when each page opens. 
+        Push is always manual — this prevents one device accidentally overwriting another.<br><br>
+        <strong>Before switching devices:</strong> Push on the device you just used.<br>
+        <strong>If data looks stale:</strong> Use Force Pull to override local state.<br>
+        <strong>Security:</strong> Your GitHub token is stored only in this browser on this device. Use a fine-grained personal access token scoped to Gists only.
+      </div>
+    </div>
+
+    <!-- SYSTEM NOTES (moved from Morning Map) -->
+    <div class="card" style="margin-bottom:16px">
+      <div class="h2" style="font-size:20px; margin-bottom:4px">🗒 System Notes</div>
+      <div class="muted small" style="margin-bottom:12px">Original design notes — for reference when you want to revisit the thinking behind the system.</div>
+      <textarea id="notesText" class="notesText" spellcheck="false" style="min-height:200px; font-size:13px"></textarea>
+      <div class="row" style="margin-top:8px">
+        <button class="btn" id="notesSave">Save</button>
+      </div>
+    </div>
+
     <div class="footer" data-footer></div>
   </div>
 
