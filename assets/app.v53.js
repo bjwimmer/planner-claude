@@ -55,6 +55,7 @@ const NAV_ITEMS = [
   { href: "quick-capture.html", label: "⚡ Quick Capture" },
   { href: "strategic-life-map.html", label: "Strategic Life Map" },
   { href: "thread-registry.html", label: "Thread Registry" },
+  { href: "long-view.html", label: "🔭 Long View" },
   { href: "how-this-works.html", label: "How This Works" },
 ];
 
@@ -1661,6 +1662,7 @@ document.addEventListener("DOMContentLoaded", ()=>{
   else if(page==="morningmap" || page==="home"){ dbgMarkInit('morningMap'); initMorningMap();    }
   else if(page==="lifemap")                    { dbgMarkInit('lifeMap');    initLifeMap();       }
   else if(page==="income")                     { dbgMarkInit('income');     initIncomeMap();     }
+  else if(page==="longview")                   { dbgMarkInit('longview');   initLongView();      }
   else if(page==="overview")                   { dbgMarkInit('overview');   initOverview();      }
   else                                         { dbgMarkInit('common');     initCommon();        }
 });
