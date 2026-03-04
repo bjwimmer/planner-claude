@@ -1308,7 +1308,7 @@ function initLifeMap(){
   function threadLinksHtml(g){
     const ids = Array.isArray(g.linkedThreadIds) ? g.linkedThreadIds : [];
     if(!ids.length) return '';
-    const threads = ids.map(id => st.threads.find(t => String(t.id)===String(id))).filter(Boolean);
+    const threads = ids.map(id => st.threads.find(t => String(t.id)===String(id))).filter(t => t && t.status !== "archived");
     if(!threads.length) return '';
     const pills = threads.map(t=>{
       const badge = threadStatusBadge(t.status);
@@ -1360,7 +1360,7 @@ function initLifeMap(){
               <span class="pill domain-pill" data-domain="${escapeAttr(domain.toLowerCase())}">${escapeHtml(domain)}</span>
             </div>
             ${threadLinksHtml(g)}
-            ${(()=>{ const linked = (g.linkedThreadIds||[]).map(id=>st.threads.find(t=>t.id===id)).filter(Boolean); const actions = linked.map(t=>t.nextAction).filter(Boolean); return actions.length ? `<div style="margin-top:8px; padding:10px 14px; background:#ffffcc; border-left:4px solid #e5e500; border-radius:8px; box-shadow:0 1px 4px rgba(0,0,0,.08)"><div style="font-size:10px; font-weight:700; color:#334155; letter-spacing:.8px; margin-bottom:4px"><span style="color:#dc2626">⚡</span> NEXT ACTION <span style="color:#dc2626">⚡</span></div><div style="font-size:14px; font-weight:700; color:#0f172a">${escapeHtml(actions[0])}</div></div>` : ""; })()}
+            ${(()=>{ const linked = (g.linkedThreadIds||[]).map(id=>st.threads.find(t=>t.id===id)).filter(t=>t && t.status!=="archived"); const actions = linked.map(t=>t.nextAction).filter(Boolean); return actions.length ? `<div style="margin-top:8px; padding:10px 14px; background:#ffffcc; border-left:4px solid #e5e500; border-radius:8px; box-shadow:0 1px 4px rgba(0,0,0,.08)"><div style="font-size:10px; font-weight:700; color:#334155; letter-spacing:.8px; margin-bottom:4px"><span style="color:#dc2626">⚡</span> NEXT ACTION <span style="color:#dc2626">⚡</span></div><div style="font-size:14px; font-weight:700; color:#0f172a">${escapeHtml(actions[0])}</div></div>` : ""; })()}
           </div>
           <div class="row" style="justify-content:flex-end; gap:8px">
             ${leftBtn}
