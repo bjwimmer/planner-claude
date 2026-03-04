@@ -891,8 +891,12 @@ function initThreadRegistry(){
   }
 
   function renderThreads(){
+    const showArchived = document.querySelector('[data-toggle-archived]')?.checked || false;
     const activeThreads = st.threads
       .filter(t=>t.status!=="archived")
+      .sort((a,b)=>b.updatedAt.localeCompare(a.updatedAt));
+    const archivedThreads = st.threads
+      .filter(t=>t.status==="archived")
       .sort((a,b)=>b.updatedAt.localeCompare(a.updatedAt));
 
     threadsEl.innerHTML = activeThreads.length ? activeThreads.map(t=>{
@@ -1111,10 +1115,67 @@ function initThreadRegistry(){
     });
   }
 
+  function renderArchivedThreads(){
+    const showArchived = document.querySelector('[data-toggle-archived]')?.checked || false;
+    const archivedThreads = st.threads
+      .filter(t=>t.status==="archived")
+      .sort((a,b)=>(b.updatedAt||'').localeCompare(a.updatedAt||''));
+
+    // Remove existing archived section if present
+    const existing = document.getElementById('archivedThreadsSection');
+    if(existing) existing.remove();
+
+    if(!showArchived || !archivedThreads.length) return;
+
+    const section = document.createElement('div');
+    section.id = 'archivedThreadsSection';
+    section.style.cssText = 'margin-top:24px';
+    section.innerHTML = `
+      <div style="font-size:12px; font-weight:700; letter-spacing:.8px; color:#94a3b8; margin-bottom:12px">
+        ARCHIVED THREADS (${archivedThreads.length})
+      </div>
+      ${archivedThreads.map(t=>`
+        <div style="display:flex;align-items:center;gap:10px;padding:10px 14px;background:rgba(248,250,252,.9);border:1px solid rgba(215,222,233,.8);border-radius:12px;margin-bottom:8px;opacity:.8">
+          <div style="flex:1">
+            <div style="font-weight:700;font-size:14px;color:#334155">${escapeHtml(t.title)}</div>
+            <div style="font-size:11px;color:#94a3b8;margin-top:2px">
+              ${t.domain ? `<span style="margin-right:8px">${escapeHtml(t.domain)}</span>` : ''}
+              archived ${new Date(t.updatedAt||t.createdAt).toLocaleDateString()}
+            </div>
+          </div>
+          <button class="btn mini" data-restore-thread="${t.id}" style="color:#059669;border-color:rgba(5,150,105,.3)">Restore</button>
+          <button class="btn mini bad" data-perm-delete-thread="${t.id}">Delete</button>
+        </div>
+      `).join('')}
+    `;
+
+    threadsEl.after(section);
+
+    // Restore thread
+    section.querySelectorAll('[data-restore-thread]').forEach(btn=>{
+      btn.addEventListener('click', ()=>{
+        const id = btn.getAttribute('data-restore-thread');
+        const t = st.threads.find(x=>String(x.id)===String(id));
+        if(t){ t.status='active'; t.updatedAt=nowIso(); saveState(st); renderFooter(st); render(); toast('Thread restored.'); }
+      });
+    });
+
+    // Permanently delete thread
+    section.querySelectorAll('[data-perm-delete-thread]').forEach(btn=>{
+      btn.addEventListener('click', ()=>{
+        const id = btn.getAttribute('data-perm-delete-thread');
+        if(!confirm('Permanently delete this thread?')) return;
+        st.threads = st.threads.filter(x=>String(x.id)!==String(id));
+        saveState(st); renderFooter(st); render(); toast('Thread deleted.');
+      });
+    });
+  }
+
   function render(){
     renderWeeklySlots();
     renderInbox();
     renderThreads();
+    renderArchivedThreads();
   }
 
   form.addEventListener("submit",(e)=>{
@@ -1414,9 +1475,15 @@ function initLifeMap(){
         if(!st.lifeMap.horizons[hKey].domains[domain]) st.lifeMap.horizons[hKey].domains[domain] = [];
         const { archivedAt, horizonKey, horizon, ...goal } = a;
         st.lifeMap.horizons[hKey].domains[domain].unshift(goal);
+        // Restore linked threads too
+        const linkedIds = Array.isArray(goal.linkedThreadIds) ? goal.linkedThreadIds : [];
+        linkedIds.forEach(tid => {
+          const t = st.threads.find(x=>String(x.id)===String(tid));
+          if(t && t.status === 'archived') t.status = 'active';
+        });
         archived.splice(idx, 1);
         saveState(st); renderFooter(st); render();
-        toast('Goal restored.');
+        toast('Goal and linked threads restored.');
       });
     });
 
@@ -1484,6 +1551,14 @@ function initLifeMap(){
         if(idx<0) return;
         const goal = list.splice(idx, 1)[0];
         if(!st.lifeMap.archivedGoals) st.lifeMap.archivedGoals = [];
+
+        // Archive any linked threads too
+        const linkedIds = Array.isArray(goal.linkedThreadIds) ? goal.linkedThreadIds : [];
+        linkedIds.forEach(tid => {
+          const t = st.threads.find(x=>String(x.id)===String(tid));
+          if(t && t.status !== 'archived') t.status = 'archived';
+        });
+
         st.lifeMap.archivedGoals.unshift({
           ...goal,
           horizonKey: hKey,
@@ -1492,7 +1567,8 @@ function initLifeMap(){
           archivedAt: nowIso()
         });
         saveState(st); renderFooter(st); render();
-        toast('Goal archived.');
+        const threadCount = linkedIds.length;
+        toast(`Goal archived${threadCount ? ` (+ ${threadCount} linked thread${threadCount>1?'s':''})` : ''}.`);
       });
     });
 
