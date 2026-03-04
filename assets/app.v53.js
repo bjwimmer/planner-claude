@@ -1116,40 +1116,48 @@ function initThreadRegistry(){
   }
 
   function renderArchivedThreads(){
-    const showArchived = document.querySelector('[data-toggle-archived]')?.checked || false;
+    const section = document.getElementById('archivedThreadsSection');
+    if(!section) return;
+
     const archivedThreads = st.threads
       .filter(t=>t.status==="archived")
       .sort((a,b)=>(b.updatedAt||'').localeCompare(a.updatedAt||''));
 
-    // Remove existing archived section if present
-    const existing = document.getElementById('archivedThreadsSection');
-    if(existing) existing.remove();
+    if(!archivedThreads.length){ section.innerHTML = ''; return; }
 
-    if(!showArchived || !archivedThreads.length) return;
+    // Preserve open/closed state across re-renders
+    const wasOpen = section.querySelector('#archivedThreadList')?.style.display === 'block';
 
-    const section = document.createElement('div');
-    section.id = 'archivedThreadsSection';
-    section.style.cssText = 'margin-top:24px';
     section.innerHTML = `
-      <div style="font-size:12px; font-weight:700; letter-spacing:.8px; color:#94a3b8; margin-bottom:12px">
-        ARCHIVED THREADS (${archivedThreads.length})
-      </div>
-      ${archivedThreads.map(t=>`
-        <div style="display:flex;align-items:center;gap:10px;padding:10px 14px;background:rgba(248,250,252,.9);border:1px solid rgba(215,222,233,.8);border-radius:12px;margin-bottom:8px;opacity:.8">
-          <div style="flex:1">
-            <div style="font-weight:700;font-size:14px;color:#334155">${escapeHtml(t.title)}</div>
-            <div style="font-size:11px;color:#94a3b8;margin-top:2px">
-              ${t.domain ? `<span style="margin-right:8px">${escapeHtml(t.domain)}</span>` : ''}
-              archived ${new Date(t.updatedAt||t.createdAt).toLocaleDateString()}
+      <div class="card">
+        <button id="toggleArchivedThreads" style="background:none;border:none;cursor:pointer;font-size:13px;font-weight:600;color:#64748b;padding:4px 0;display:flex;align-items:center;gap:6px;width:100%">
+          <span id="archivedThreadChevron">${wasOpen ? '▼' : '▶'}</span> Archived Threads (${archivedThreads.length})
+        </button>
+        <div id="archivedThreadList" style="display:${wasOpen ? 'block' : 'none'}; margin-top:12px">
+          ${archivedThreads.map(t=>`
+            <div style="display:flex;align-items:center;gap:10px;padding:10px 14px;background:rgba(248,250,252,.9);border:1px solid rgba(215,222,233,.8);border-radius:12px;margin-bottom:8px">
+              <div style="flex:1">
+                <div style="font-weight:700;font-size:14px;color:#334155">${escapeHtml(t.title)}</div>
+                <div style="font-size:11px;color:#94a3b8;margin-top:2px">
+                  ${t.domain ? `<span style="margin-right:8px">${escapeHtml(t.domain)}</span>` : ''}
+                  archived ${new Date(t.updatedAt||t.createdAt).toLocaleDateString()}
+                </div>
+              </div>
+              <button class="btn mini" data-restore-thread="${t.id}" style="color:#059669;border-color:rgba(5,150,105,.3)">Restore</button>
+              <button class="btn mini bad" data-perm-delete-thread="${t.id}">Delete</button>
             </div>
-          </div>
-          <button class="btn mini" data-restore-thread="${t.id}" style="color:#059669;border-color:rgba(5,150,105,.3)">Restore</button>
-          <button class="btn mini bad" data-perm-delete-thread="${t.id}">Delete</button>
+          `).join('')}
         </div>
-      `).join('')}
+      </div>
     `;
 
-    threadsEl.after(section);
+    // Toggle
+    section.querySelector('#toggleArchivedThreads')?.addEventListener('click', ()=>{
+      const list = section.querySelector('#archivedThreadList');
+      const chev = section.querySelector('#archivedThreadChevron');
+      if(list.style.display === 'none'){ list.style.display='block'; chev.textContent='▼'; }
+      else { list.style.display='none'; chev.textContent='▶'; }
+    });
 
     // Restore thread
     section.querySelectorAll('[data-restore-thread]').forEach(btn=>{
