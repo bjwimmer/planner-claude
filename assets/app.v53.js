@@ -482,11 +482,11 @@ async function githubPull({force=false} = {}){
   const localState = loadState();
   const remoteUpdated = parseIso(remoteState?.meta?.updatedAt);
   const localUpdated  = parseIso(localState?.meta?.updatedAt);
-  if(force || remoteUpdated >= localUpdated){
+  if(force || remoteUpdated > localUpdated){
     saveState(remoteState);
-    return {applied:true, reason: force ? "forced" : "remote-newer-or-equal", remoteUpdated, localUpdated};
+    return {applied:true, reason: force ? "forced" : "remote-newer", remoteUpdated, localUpdated};
   }
-  return {applied:false, reason:"local-newer", remoteUpdated, localUpdated};
+  return {applied:false, reason:"local-newer-or-equal", remoteUpdated, localUpdated};
 }
 
 async function githubPush(){
