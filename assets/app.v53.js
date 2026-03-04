@@ -764,6 +764,21 @@ function initThreadRegistry(){
   const inboxEl   = document.querySelector("#registryInbox");
   const threadsEl = document.querySelector("#threadsList");
   const form      = document.querySelector("#newThreadForm");
+
+  // Delegated archive handler — attached once, survives re-renders
+  threadsEl.addEventListener("click", e=>{
+    const btn = e.target.closest("[data-archive-thread]");
+    if(!btn) return;
+    const id = btn.getAttribute("data-archive-thread");
+    const th = st.threads.find(x=>String(x.id)===String(id));
+    if(!th) return;
+    th.status = "archived";
+    th.updatedAt = nowIso();
+    if(String(st.weekly?.slot1)===String(id)) st.weekly.slot1=null;
+    if(String(st.weekly?.slot2)===String(id)) st.weekly.slot2=null;
+    saveState(st); renderFooter(st); render();
+    toast("Thread archived.");
+  });
   const focusThreadId = new URLSearchParams(location.search).get("focusThread");
 
   // Focus glow style
@@ -1074,20 +1089,6 @@ function initThreadRegistry(){
         if(!th) return;
         try{ await navigator.clipboard.writeText(th.nextAction || ""); toast("Micro-action copied."); }
         catch{ alert("Couldn't access clipboard in this browser."); }
-      });
-    });
-
-    threadsEl.querySelectorAll("[data-archive-thread]").forEach(btn=>{
-      btn.addEventListener("click", ()=>{
-        const id = btn.getAttribute("data-archive-thread");
-        const th = st.threads.find(x=>String(x.id)===String(id));
-        if(!th) return;
-        th.status = "archived";
-        th.updatedAt = nowIso();
-        if(String(st.weekly?.slot1)===String(id)) st.weekly.slot1=null;
-        if(String(st.weekly?.slot2)===String(id)) st.weekly.slot2=null;
-        saveState(st); renderFooter(st); render();
-        toast("Thread archived.");
       });
     });
 
