@@ -949,6 +949,7 @@ function initThreadRegistry(){
             <button class="btn"         data-edit="${t.id}">Edit</button>
             <button class="btn"         data-schedule="${t.id}">Schedule</button>
             <button class="btn warn"    data-copy="${t.id}">Copy micro-action</button>
+            <button class="btn" style="background:rgba(100,116,139,.12);color:#475569;border:1px solid rgba(100,116,139,.25)" data-archive-thread="${t.id}">Archive</button>
             <button class="btn bad"     data-delete="${t.id}">Delete</button>
           </div>
         </div>
@@ -1073,6 +1074,20 @@ function initThreadRegistry(){
         if(!th) return;
         try{ await navigator.clipboard.writeText(th.nextAction || ""); toast("Micro-action copied."); }
         catch{ alert("Couldn't access clipboard in this browser."); }
+      });
+    });
+
+    threadsEl.querySelectorAll("[data-archive-thread]").forEach(btn=>{
+      btn.addEventListener("click", ()=>{
+        const id = btn.getAttribute("data-archive-thread");
+        const th = st.threads.find(x=>String(x.id)===String(id));
+        if(!th) return;
+        th.status = "archived";
+        th.updatedAt = nowIso();
+        if(String(st.weekly?.slot1)===String(id)) st.weekly.slot1=null;
+        if(String(st.weekly?.slot2)===String(id)) st.weekly.slot2=null;
+        saveState(st); renderFooter(st); render();
+        toast("Thread archived.");
       });
     });
 
