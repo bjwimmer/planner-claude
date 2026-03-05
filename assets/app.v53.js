@@ -1309,7 +1309,9 @@ function initLifeMap(){
   function threadLinksHtml(g){
     const ids = Array.isArray(g.linkedThreadIds) ? g.linkedThreadIds : [];
     if(!ids.length) return '';
-    const threads = ids.map(id => st.threads.find(t => String(t.id)===String(id))).filter(t => t && t.status !== "archived");
+    const allThreads = ids.map(id => st.threads.find(t => String(t.id)===String(id))).filter(Boolean);
+    console.log('[LifeMap threadLinksHtml] goal:', g.title, 'linked threads:', allThreads.map(t=>t.title+' status:'+t.status));
+    const threads = allThreads.filter(t => t.status !== "archived");
     if(!threads.length) return '';
     const pills = threads.map(t=>{
       const badge = threadStatusBadge(t.status);
