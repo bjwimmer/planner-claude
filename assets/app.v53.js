@@ -1309,9 +1309,7 @@ function initLifeMap(){
   function threadLinksHtml(g){
     const ids = Array.isArray(g.linkedThreadIds) ? g.linkedThreadIds : [];
     if(!ids.length) return '';
-    const allThreads = ids.map(id => st.threads.find(t => String(t.id)===String(id))).filter(Boolean);
-    console.log('[LifeMap threadLinksHtml] goal:', g.title, 'linked threads:', allThreads.map(t=>t.title+' status:'+t.status));
-    const threads = allThreads.filter(t => t.status !== "archived");
+    const threads = ids.map(id => st.threads.find(t => String(t.id)===String(id))).filter(t => t && t.status !== "archived");
     if(!threads.length) return '';
     const pills = threads.map(t=>{
       const badge = threadStatusBadge(t.status);
@@ -1456,12 +1454,13 @@ function initLifeMap(){
       ${(()=>{
         const archived = st.lifeMap.archivedGoals || [];
         if(!archived.length) return '';
+        const wasOpen = root.querySelector('#archivedList')?.style.display === 'block';
         return `
           <div style="margin-top:24px">
             <button id="toggleArchive" style="background:none;border:none;cursor:pointer;font-size:13px;font-weight:600;color:#64748b;padding:8px 0;display:flex;align-items:center;gap:6px">
-              <span id="archiveChevron">▶</span> Archived Goals (${archived.length})
+              <span id="archiveChevron">${wasOpen ? '▼' : '▶'}</span> Archived Goals (${archived.length})
             </button>
-            <div id="archivedList" style="display:none; margin-top:10px">
+            <div id="archivedList" style="display:${wasOpen ? 'block' : 'none'}; margin-top:10px">
               ${archived.map(a=>`
                 <div style="display:flex;align-items:center;gap:10px;padding:10px 14px;background:rgba(248,250,252,.9);border:1px solid rgba(215,222,233,.8);border-radius:12px;margin-bottom:8px">
                   <div style="flex:1">
